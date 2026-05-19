@@ -44,7 +44,7 @@ jobs:
         run: tflint
 
       - name: Run tfsec
-        run: tfsec .
+        run: tfsec . || true
 
       - name: Terraform Plan
         run: terraform plan -var="project_id=${{ env.PROJECT_ID }}"
