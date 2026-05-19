@@ -10,6 +10,7 @@ on:
 
 env:
   PROJECT_ID: virtual-data-496500-h7
+  GOOGLE_APPLICATION_CREDENTIALS: credentials.json
 
 jobs:
   terraform:
@@ -18,10 +19,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Create credentials file
+        run: echo '${{ secrets.GCP_CREDENTIALS }}' > credentials.json
 
       - name: Install tflint
         run: |
@@ -30,9 +34,6 @@ jobs:
       - name: Install tfsec
         run: |
           curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-
-      - name: Create credentials file
-        run: echo '${{ secrets.GCP_CREDENTIALS }}' > credentials.json
 
       - name: Terraform Init
         run: terraform init
